@@ -20,42 +20,42 @@ DE48_SUBELEMENT_GLOSSARY = {
     "09": "Additional PAN Data [Variable]",
     "10": "Encrypted PIN Block Key [Variable]",
     "11": "Key Exchange Block Data [Variable]",
-    "12": "Routing Indicator [Variable]",
+    "12": "Routing Indicator [Fixed, 1 char]",
     "13": "Mastercard Hosted Mobile Phone Top-Up Request Data [Variable]",
     "14": "Account Type Indicator [Fixed, 1 char]",
-    "15": "Authorization System Characteristics / Advice Timestamp [Fixed, 10 char]",
-    "16": "Processor Pseudo ICA [Variable]",
+    "15": "Authorization System Advice Date and Time [Fixed, 10 char]",
+    "16": "Processor Pseudo ICA [Fixed, 7 char]",
     "17": "Authentication Indicator [Fixed, 1 char]",
-    "18": "Service Parameters / Settlement Performance [Fixed, 1 char]",
-    "20": "Cardholder Present Data / Verification Method [Fixed, 1 char]",
-    "21": "Acceptance Data / POS Capability Profile [Fixed, 3 char]",
-    "22": "Multi-Purpose Merchant Indicator (MIT/CIT Framework) [Fixed, 2 char]",
+    "18": "Service Parameters [Variable]",
+    "20": "Cardholder Verification Method [Fixed, 1 char]",
+    "21": "Acceptance Data [Fixed, 3 char]",
+    "22": "Multi-Purpose Merchant Indicator [Variable]",
     "23": "Payment Initiation Channel [Fixed, 2 char]",
-    "24": "Account Level Management (ALM) Service Data [Variable, Nested]",
+    "24": "Account Level Management (ALM) Service Data [Variable]",
     "25": "Mastercard Cash Program Data [Variable]",
-    "26": "Wallet Program Data / Wallet Identifier [Fixed, 3 char]",
+    "26": "Wallet Program Data [Fixed, 3 char]",
     "27": "Transaction Analysis [Variable]",
-    "28": "Cardless ATM Order ID [Variable]",
-    "29": "Additional POS Terminal Locations [Variable]",
+    "28": "Cardless ATM Order ID [Fixed, 10 char]",
+    "29": "Additional POS Terminal Locations [Fixed, 1 char]",
     "30": "Token Transaction Identifier [Variable]",
-    "32": "Mastercard Assigned ID / Customer ID [Variable]",
-    "33": "PAN Mapping File Information / Status Indicator [Variable]",
-    "34": "ATC Information [Variable]",
+    "32": "Mastercard Assigned ID [Fixed, 6 char]",
+    "33": "PAN Mapping File Information [Variable]",
+    "34": "ATC Information [Fixed, 11 char]",
     "35": "Contactless Non-Card Form Factor Request/Response [Fixed, 1 char]",
     "36": "Additional Visa Request Data [Variable]",
-    "37": "Additional Merchant Data (Payment Facilitator / Marketplace Data) [Variable]",
-    "38": "Account Category Indicator [Fixed, 1 char]",
+    "37": "Additional Merchant Data [Variable]",
+    "38": "Account Category [Fixed, 1 char]",
     "39": "Account Data Compromise Information [Fixed, 1 char]",
     "40": "E-Commerce Merchant/Cardholder Certificate Serial Number [Variable]",
     "41": "Electronic Commerce Certificate Qualifying Information [Variable]",
-    "42": "Electronic Commerce Indicators (ECI) [Fixed, 3 char]",
+    "42": "Electronic Commerce Indicators [Fixed, 3 char]",
     "43": "Universal Cardholder Authentication Field (UCAF) Data [Variable]",
     "44": "3-D Secure Electronic Commerce Transaction Identifier (XID) [Variable]",
     "45": "3-D Secure Electronic Commerce Transaction Response Code [Fixed, 1 char]",
-    "46": "Product ID [Variable]",
+    "46": "Product ID (Visa Only) [Fixed, 2 char]",
     "47": "Mastercard Payment Gateway Transaction Indicator [Fixed, 1 char]",
-    "48": "Digital Commerce Solutions Indicators (DCS Platform Data) [Variable]",
-    "49": "Time Validation Information / Expiry Check Profile [Fixed, 1 char]",
+    "48": "Digital Commerce Solutions Indicators [Variable]",
+    "49": "Time Validation Information [Fixed, 15 char]",
     "50": "Embedded Interchange Data [Variable]",
     "51": "Merchant On-behalf Services [Variable]",
     "52": "Interchange Structure Indicator [Fixed, 2 char]",
@@ -67,10 +67,10 @@ DE48_SUBELEMENT_GLOSSARY = {
     "60": "Additional Service Data For Issuers [Variable]",
     "61": "POS Data Extended Condition Codes [Fixed, 5 char]",
     "62": "Real-Time Payment Information [Variable]",
-    "63": "Trace ID / Network Reference Data [Fixed, 15 char]",
+    "63": "Trace ID [Fixed, 15 char]",
     "64": "Transit Program [Fixed, 4 char]",
     "65": "Terminal Compliant Indicator [Fixed, 2 char]",
-    "66": "Authentication Data (Program Protocol & DS Transaction ID) [Variable]",
+    "66": "Authentication Data [Variable]",
     "67": "Mastercard Send Information [Variable]",
     "68": "Financial Account Information [Variable]",
     "71": "On-behalf Services Result Flags [Variable Repeating, 3-char sets]",
@@ -82,7 +82,7 @@ DE48_SUBELEMENT_GLOSSARY = {
     "78": "Payment Service Indicators (Visa Only) [Fixed, 6 char]",
     "79": "Chip CVR/TVR Bit Error Results [Variable]",
     "80": "PIN Service Code [Fixed, 2 char]",
-    "82": "Address Verification Service (AVS) Request [Variable]",
+    "82": "Address Verification Service (AVS) Request [Fixed, 2 char]",
     "83": "Address Verification Service (AVS) Response [Fixed, 1 char]",
     "84": "Merchant Advice Code [Fixed, 2 char]",
     "85": "Account Status (Visa Only) [Fixed, 1 char]",
@@ -95,9 +95,9 @@ DE48_SUBELEMENT_GLOSSARY = {
     "92": "CVC 2 Value (Inbound Request Only) [Fixed, 3 char]",
     "93": "Fleet Card ID Request Data [Variable]",
     "94": "Commercial Card Inquiry Request/Response [Fixed, 1 char]",
-    "95": "Mastercard Promotion Code / Amex CID Result [Fixed, 1 char]",
-    "96": "Visa Market-Specific Data Identifier [Variable]",
-    "97": "Prestigious Properties Indicator [Variable]",
+    "95": "Mastercard Promotion Code / Amex CID Result [Fixed, 6 char]",
+    "96": "Visa Market-Specific Data Identifier [Fixed, 1 char]",
+    "97": "Prestigious Properties Indicator [Fixed, 1 char]",
     "98": "Mastercard Corporate Fleet Card ID/Driver Number [Variable]",
     "99": "Mastercard Corporate Fleet Card Vehicle Number [Variable]"
 }
@@ -105,29 +105,32 @@ DE48_SUBELEMENT_GLOSSARY = {
 # NESTED LOOKUP CODES TRANSCRIPTION
 DE48_VALUE_TABLES = {
     "01": {
-        "A": "Automotive / Vehicle Rental", "C": "Cash Advance / Cash Disbursement",
-        "F": "Restaurant / Food Service", "H": "Hotel / Lodging", "O": "Other / General Retail",
-        "R": "Retail Transaction", "T": "Airline / Transportation", "U": "Electronic Commerce (E-Commerce)",
-        "X": "Reversal / Administrative Adjustment", "Z": "ATM / Automated Teller Machine Transaction"
+        "A": "Automotive / Vehicle Rental", 
+        "C": "Cash Advance / Cash Disbursement",
+        "F": "Restaurant / Food Service", 
+        "H": "Hotel / Lodging", 
+        "O": "Other / General Retail",
+        "R": "Retail Transaction", 
+        "T": "Phone, Mail, or Electronic Commerce Order", 
+        "U": "Unique Transaction",
+        "X": "Reversal / Administrative Adjustment", 
+        "Z": "ATM / Automated Teller Machine Transaction"
     },
     "12": {
-        "A": "Alternate issuer host routing", "P": "Primary issuer host routing"
+        "A": "Alternate issuer host routing", 
+        "P": "Primary issuer host routing"
     },
     "14": {
-        "C": "Credit Transaction", "D": "Debit Transaction"
-    },
-    "15": {
-        "0": "Normal Transaction Pathway", "1": "Mastercard On-behalf (Stand-In) Authorized", "2": "X-Code Stand-In Authorized"
+        "C": "Credit Transaction", 
+        "D": "Debit Transaction"
     },
     "17": {
-        "1": "Qualified for Authentication Service Type 1", "2": "Qualified for Authentication Service Type 2"
-    },
-    "18": {
-        "0": "Standard Tier Clearing Window", "1": "Accelerated Financial Settlement", "2": "Deferred Interbank Clearing",
-        "Y": "Yes - Merchant accepts Canada domestic Debit Mastercard"
+        "1": "Qualified for Authentication Service Type 1", 
+        "2": "Qualified for Authentication Service Type 2"
     },
     "20": {
-        "P": "Online PIN verification", "S": "Signature / Offline PIN / No CVM used"
+        "P": "Online PIN verification", 
+        "S": "Signature / Offline PIN / No CVM used"
     },
     "21.POS1": {
         "0": "Dedicated mPOS Terminal with PCI compliant dongle",
@@ -140,17 +143,15 @@ DE48_VALUE_TABLES = {
         "11": "QR Supported | Barcode Supported"
     },
     "22.POS1": {
-        "0": "Unspecified / Baseline Customer Initiated Transaction (CIT)",
-        "1": "Cardholder Initiated Credential-on-File (CIT COF)",
-        "2": "Merchant Initiated Recurring Transaction (MIT)",
-        "3": "Merchant Initiated Unscheduled Credential-on-File (MIT UCOF)",
-        "4": "Delayed Charges / No Show Processing",
-        "5": "Resubmission (for deferred authorizations)",
-        "6": "Related/Delayed Charge",
-        "7": "No Show Charge",
-        "8": "Resubmission",
-        "A": "Message Format Version: Pre 23Q2 Release",
-        "B": "Message Format Version: Post 23Q2 Release",
+        "01": "CIT - Consumer agrees to store credential",
+        "02": "CIT - Standing Order (variable amount)",
+        "03": "CIT - Subscription (fixed amount)",
+        "04": "CIT - Installment",
+        "05": "MIT - Unscheduled Recurring",
+        "06": "MIT - Standing Order",
+        "07": "MIT - Subscription",
+        "08": "MIT - Installment",
+        "M208": "Resubmission",
     },
     "22.POS2": {
         "0": "First Transaction in Sequence / Agreement Initialized",
@@ -206,8 +207,10 @@ DE48_VALUE_TABLES = {
         "LU": "Linked status update"
     },
     "26": {
-        "101": "Masterpass Digital Wallet", "103": "Apple Pay",
-        "216": "Google Pay Tokenized Transaction", "217": "Samsung Pay Tokenized Transaction",
+        "101": "Masterpass Digital Wallet", 
+        "103": "Apple Pay",
+        "216": "Google Pay Tokenized Transaction", 
+        "217": "Samsung Pay Tokenized Transaction",
         "327": "Remote commerce programs"
     },
     "29": {
@@ -215,11 +218,14 @@ DE48_VALUE_TABLES = {
         "B": "Transaction initiated remotely and completed at physical terminal off premises"
     },
     "35": {
-        "R": "Cardholder request for device", "A": "Approve cardholder request for device",
+        "R": "Cardholder request for device", 
+        "A": "Approve cardholder request for device",
         "D": "Decline cardholder request for device"
     },
     "38": {
-        "A": "Consumer Card Profile", "B": "Commercial Card Profile", "C": "Corporate Fleet Profile",
+        "A": "Consumer Card Profile", 
+        "B": "Commercial Card Profile", 
+        "C": "Corporate Fleet Profile",
         "Z": "Previously participated in Enhanced Value/Product Graduation/High Value"
     },
     "39": {
@@ -249,14 +255,18 @@ DE48_VALUE_TABLES = {
         "7": "Merchant-initiated transactions",
     },
     "45": {
-        "0": "Verification Successful", "1": "Verification Failed", "2": "Verification Not Performed / Bypassed"
+        "0": "Verification Successful", 
+        "1": "Verification Failed", 
+        "2": "Verification Not Performed / Bypassed"
     },
     "47": {
         "MC-MPG/W": "Mastercard Payment Gateway transaction"
     },
     "48.SUB1": {
-        "0": "Multi-Domain Platform", "1": "Mastercard Core Solution Platform",
-        "2": "Acquirer Managed Digital Ecosystem", "3": "Issuer Managed Digital Ecosystem"
+        "0": "Multi-Domain Platform", 
+        "1": "Mastercard Core Solution Platform",
+        "2": "Acquirer Managed Digital Ecosystem", 
+        "3": "Issuer Managed Digital Ecosystem"
     },
     "48.SUB2": {
         "0": "Multi-Program",
@@ -342,9 +352,12 @@ DE48_VALUE_TABLES = {
         "N": "Acquiring Institution account used for real-time settlement."
     },
     "62.SUB2": {
-        "D": "Domestic real-time payment", "C": "Intercountry real-time payment",
-        "R": "Intraregional real-time payment", "X": "Interregional real-time payment",
-        "Z": "Other custom real-time framework", "N": "No participation"
+        "D": "Domestic real-time payment", 
+        "C": "Intercountry real-time payment",
+        "R": "Intraregional real-time payment", 
+        "X": "Interregional real-time payment",
+        "Z": "Other custom real-time framework", 
+        "N": "No participation"
     },
     "62.SUB3": {
         "PBA": "Mastercard Pay by Account"
@@ -564,7 +577,10 @@ DE48_VALUE_TABLES = {
         "J": "DE 61 subfield 5 is 1"
     },
     "90": {
-        "P": "Cardholder enrolled in merchant preferred customer program"
+        "P": "Cardholder enrolled in merchant preferred customer program",
+        "I": "Incremental authorization",
+        "R": "Recurring payment",
+        "Y": "Request for Custom Payment Service participation"
     },
     "94": {
         "0": "Not a commercial card product", 
@@ -588,196 +604,378 @@ DE48_VALUE_TABLES = {
         "PRYCTA": "Installment payment transaction within Paraguay",
         "URYCTA": "Installment payment transaction within Uruguay"
     },
-    "96": {
-        # Visa Market-Specific Data Identifier - values defined by Visa
-    },
+    "96": {},
     "97": {
         "D": "Visa established limits",
         "B": "Visa established limits",
         "S": "Visa established limits"
+    },
+    
+    # ========================================================================
+    # DE 48, SUBELEMENT 71 - On-Behalf Services (OBS) Complete Registry
+    # ========================================================================
+    "71.SERVICES": {
+        "01": "Chip to Magnetic Stripe Conversion Service",
+        "02": "M/Chip Cryptogram Pre-validation Service",
+        "03": "M/Chip Cryptogram Validation in Stand-In Processing",
+        "04": "M/Chip Cryptogram Regeneration Service",
+        "05": "Mastercard Identity Check AAV Verification Service",
+        "06": "Mastercard Identity Check AAV Verification in Stand-In Processing",
+        "08": "Online PIN Pre-validation (Europe Only)",
+        "09": "Online PIN Validation in Stand-In (Europe only)",
+        "10": "CVC 1 Validation Stand-In Service",
+        "11": "CVC 1 Pre-Validation Service",
+        "14": "Contactless Mapping Service",
+        "15": "Dynamic CVC 3 Pre-validation (with or without Contactless Mapping Service)",
+        "16": "Dynamic CVC 3 Validation in Stand-In Processing",
+        "17": "In Control Virtual Card Service",
+        "18": "Fraud Scoring Service",
+        "20": "In Control RCN Spend Control Service",
+        "25": "Account Data Compromise Information",
+        "26": "Point-of-Interaction Service",
+        "31": "Chip CVC to CVC 1 Conversion Service (CVC 1 Key/Decision Matrix Only)",
+        "32": "Chip CVC to CVC 1 Conversion Service (Separate Keys/Decision Matrices)",
+        "33": "Send and other transactions blocking service",
+        "37": "Mastercard Merchant Presented QR Blocking Service",
+        "50": "MDES PAN Mapping service",
+        "51": "MDES Pre-Validation Service for Secure Element tokens (ICC or DSRP data)",
+        "52": "MDES Pre-Validation Service for Secure Element tokens (CVC3 data)",
+        "54": "Mastercard Digital Enablement Service Digital Payment Data Validation Service",
+        "55": "Merchant Validation Service",
+        "61": "MDES Pre-Validation Service for Cloud and Static tokens (ICC, DSRP, or DTVC data)",
+        "62": "MDES Pre-Validation Service for Cloud tokens (CVC3 data)",
+        "71": "Token Service Provider Cloud Based Payments Chip Validation Service in Stand-In"
+    },
+    
+    "71.OBS01": {
+        "C": "Conversion of M/Chip transaction to magstripe completed from PAN Entry Mode 05 or 79",
+        "M": "Conversion of M/Chip fallback transaction to magstripe completed from PAN Entry Mode 80",
+        "S": "Conversion of M/Chip transaction to magstripe completed from PAN Entry Mode 07"
+    },
+    "71.OBS02_03_51": {
+        "A": "Valid Application Cryptogram (AC); ATC outside allowed range",
+        "E": "Valid Application Cryptogram; ATC Replay", 
+        "F": "Format Error",
+        "G": "Application Cryptogram is valid but not an ARQC nor a TC, status of TVR/CVR unknown",
+        "I": "Invalid Cryptogram", 
+        "K": "No matching key file for this PAN, PAN expiry date and KDI combination",
+        "T": "Valid ARQC/TC and ATC; TVR/CVR invalid", 
+        "U": "Unable to process", 
+        "V": "Valid",
+        "X": "Security platform time out", 
+        "Z": "Security platform processing error"
+    },
+    "71.OBS04": {
+        "C": "Regeneration of the M/Chip cryptogram was completed"
+    },
+    "71.OBS05_06": {
+        "A": "DS Txn ID not provided; AAV, amount and currency verified",
+        "B": "DS Txn ID not provided; AAV and currency verified; amount 0-20% different",
+        "C": "DS Txn ID not provided; AAV and currency verified; amount greater than 20% different",
+        "D": "DS Transaction ID does not match with PAN and SPA2 AAV within the authentication record",
+        "E": "Format Error; AAV incorrectly formatted, failed authentication, or previously used in approved auth",
+        "F": "Failed MAC key validation; Dynamic Linking validation not provided",
+        "I": "Invalid AAV; Dynamic Linking unable to find matching authentication (expired, used, or non-DS)",
+        "K": "No matching key file for PAN. SPA2 AAV provided not generated by Mastercard Identity Check",
+        "M": "Monetary Currency mismatch between authorization and authentication",
+        "P": "Passed MAC key Validation; Dynamic Linking validation not provided",
+        "S": "DS Txn ID present; AAV and currency verified; amount 0-20% different",
+        "T": "DS Txn ID present; AAV and currency verified; amount greater than 20% different",
+        "U": "Unable to process", 
+        "V": "Valid",
+        "X": "Security platform time out or Authentication Challenge (Results Request) not received yet",
+        "Z": "Security platform processing error or Authentication Response not received yet"
+    },
+    "71.OBS08_09": {
+        "I": "Invalid PIN", 
+        "P": "Mandatory PVV not on file", 
+        "R": "PIN retry exceeded (invalid PIN)",
+        "U": "Unable to process", 
+        "V": "Valid"
+    },
+    "71.OBS10_11": {
+        "I": "Invalid CVC 1", 
+        "K": "No matching key file for this PAN/Expiry date combination",
+        "U": "Unable to process", 
+        "V": "Valid"
+    },
+    "71.OBS14": {
+        "C": "Conversion of contactless account number to PAN was completed", 
+        "I": "Invalid", 
+        "U": "Unable to process"
+    },
+    "71.OBS15_16_62": {
+        "A": "ATC outside allowed range (dynamic value profile)", 
+        "E": "CVC 3 ATC Replay", 
+        "F": "Format Error",
+        "H": "Invalid Time Validation", 
+        "I": "Invalid CVC 3", 
+        "K": "No matching key file for this PAN, PAN expiry date, and KDI combination",
+        "N": "Unpredictable Number Mismatch / Length Indicator Mismatch", 
+        "U": "Unable to process", 
+        "V": "Valid",
+        "X": "Security platform time out", 
+        "Z": "Security platform system error"
+    },
+    "71.OBS17": {
+        "A": "Virtual Card Number (expiration date does not match)", 
+        "B": "Virtual Card Number (expiration date expired)",
+        "C": "Virtual Card Number Virtual CVC 2 does not match", 
+        "D": "In Control Validity Period Limit",
+        "E": "In Control Transaction Amount Limit Check", 
+        "F": "In Control Cumulative Amount Limit Check",
+        "G": "In Control Transaction Number Usage", 
+        "H": "In Control Merchant ID Limit",
+        "I": "In Control Invalid Virtual Card Number—Real Card Number mapping relationship", 
+        "J": "In Control MCC Limit",
+        "K": "In Control Database Status Bad", 
+        "L": "In Control Geographic Restriction",
+        "M": "In Control Transaction Type Restriction", 
+        "P": "In Control Transaction Time/Date Restriction",
+        "U": "Unable to process", 
+        "V": "Valid", 
+        "Y": "In Control Credit Block"
+    },
+    "71.OBS18": {
+        "C": "Fraud Scoring Service was performed successfully", 
+        "U": "Fraud Scoring Service was not performed successfully"
+    },
+    "71.OBS20": {
+        "D": "In Control Validity Period Limit", 
+        "E": "In Control Transaction Amount Limit Check",
+        "F": "In Control Cumulative Amount Limit Check", 
+        "G": "In Control Transaction Number Usage",
+        "H": "In Control Merchant ID Limit", 
+        "J": "In Control MCC Limit", 
+        "K": "In Control Database Status Bad",
+        "L": "In Control Geographic Restriction", 
+        "M": "In Control Transaction Type Restriction",
+        "P": "In Control Transaction Time/Date Restriction", 
+        "U": "Unable to process", 
+        "V": "Valid"
+    },
+    "71.OBS25": {
+        "Y": "Compromised Event Data Found", 
+        "N": "Compromised Event Data Not Found", 
+        "U": "Unable to process"
+    },
+    "71.OBS26": {
+        "C": "Enrichment completed for Installments", 
+        "F": "PAN does not qualify for installments", 
+        "U": "Unable to Process"
+    },
+    "71.OBS31_32": {
+        "C": "Chip CVC Validated Successfully; Conversion performed successfully", 
+        "F": "Track Data Formatted Incorrectly",
+        "I": "Chip CVC Invalid; Conversion not performed",
+        "K": "Key Record / Chip CVC Key Record not found for Account Range / Expiry Date combination",
+        "L": "Issuer CVC 1 Key Record not Found for Account Range / Expiry Date combination",
+        "M": "Issuer Chip CVC Key Record not Found for Account Range / Expiry Date combination", 
+        "U": "Unable to process"
+    },
+    "71.OBS33": {
+        "A": "Send issuer blocking: Limit not allowed for TTI", 
+        "B": "Send issuer blocking: Merchant not allowed for TTI",
+        "D": "Send issuer blocking: Country not allowed for TTI", 
+        "E": "Send issuer blocking: Domestic activity only allowed for TTI",
+        "F": "Send issuer blocking: Sanctions Score limit exceeded for TTI", 
+        "G": "Send Mastercard blocking: Single transaction amount limit exceeded for Payment Txn",
+        "H": "Mastercard blocking: General miscoding", 
+        "I": "Send Mastercard blocking: Reserved for future use",
+        "J": "Send Mastercard blocking: Transaction Count limit exceeded", 
+        "K": "Send Mastercard blocking: Accumulated transaction amount limit exceeded",
+        "L": "Send issuer blocking: Transaction Count exceeded for TTI", 
+        "M": "Send issuer blocking: Aggregate transaction amount limit exceeded for TTI",
+        "N": "Send issuer monitoring: Transaction Count exceeded for TTI", 
+        "O": "Send issuer monitoring: Aggregate transaction amount limit exceeded for TTI",
+        "P": "Send issuer monitoring: Transaction amount limit exceeded for TTI", 
+        "Q": "Send issuer monitoring: Sanctions Score exceeded",
+        "R": "Send issuer blocking: Invalid Card", 
+        "S": "Send Mastercard blocking: Product code invalid for TTI or use case",
+        "T": "Send Mastercard blocking: Single transaction amount limit exceeded for Funding Txn", 
+        "U": "Unable to process",
+        "V": "Valid", 
+        "W": "Send Mastercard blocking: Geographical restriction", 
+        "X": "Send Mastercard blocking: Reserved",
+        "Y": "Send Mastercard blocking: Data quality controls"
+    },
+    "71.OBS37": {
+        "D": "QR Blocking - Transaction Amount Limit Exceeded",
+        "E": "QR Blocking - Cumulative Transaction Amount Or Count Limit Exceeded",
+        "F": "QR Blocking - Domestic Activity Only", 
+        "U": "Unable to Process", 
+        "V": "Valid"
+    },
+    "71.OBS50": {
+        "C": "Conversion of Token to PAN completed successfully", 
+        "F": "Format Error", 
+        "I": "Invalid Token", 
+        "U": "Unable to process"
+    },
+    "71.OBS54": {
+        "A": "DE 4 transaction amount <= approximate amount in cryptogram",
+        "B": "DE 4 transaction amount greater than approximate amount by 0% to 19.99%",
+        "C": "DE 4 transaction amount greater than approximate amount by 20% or more",
+        "D": "DE 4 transaction amount is not zero and approximate amount in cryptogram is zero"
+    },
+    "71.OBS55": {
+        "M": "Submitted merchant data matches Mastercard data", 
+        "N": "Submitted merchant data is not a match", 
+        "U": "Unable to Process"
+    },
+    "71.OBS61_71": {
+        "D": "ATC Invalid - Not in list of currently active Single-Use Keys", 
+        "E": "ATC Replay", 
+        "F": "Format Error",
+        "I": "Invalid MD AC and UMD AC", 
+        "K": "No matching key file for this PAN, PAN expiry date and KDI combination",
+        "L": "Invalid MD AC; Valid UMD AC", 
+        "M": "Valid MD AC; Invalid UMD AC (Mobile PIN Try Counter Max Reached, Token Suspended)",
+        "P": "Valid MD AC; Invalid UMD AC (Invalid Mobile PIN)", 
+        "T": "Invalid TVR/CVR", 
+        "U": "Unable to process",
+        "V": "Valid", 
+        "X": "Security platform time out", 
+        "Z": "Security platform system error"
+    },
+    
+    # ========================================================================
+    # ALM Service Codes Complete Registry
+    # ========================================================================
+    "24.ALM_SERVICES": {
+        "00000": "ALM SERVICE UNAVAILABLE IN AUTHORIZATION",
+        "00126": "PAN NOT REGISTERED FOR ALM, BUT ISSUER'S ACCOUNT RANGE IS ACTIVE",
+        "00127": "PAN IS REGISTERED FOR ALM, BUT TRANSACTION WAS PROCESSED AS DEBIT",
+        "00402": "ENHANCED VALUE",
+        "00513": "ENHANCED VALUE and PRODUCT GRADUATION PLUS",
+        "00616": "PRODUCT GRADUATION PLUS",
+        "00703": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 1",
+        "00705": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 2",
+        "00707": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 3",
+        "00710": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 4",
+        "00717": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 5",
+        "00804": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 1 + PRODUCT GRADUATION PLUS",
+        "00806": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 2 + PRODUCT GRADUATION PLUS",
+        "00808": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 3 + PRODUCT GRADUATION PLUS",
+        "00811": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 4 + PRODUCT GRADUATION PLUS",
+        "00818": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 5 + PRODUCT GRADUATION PLUS",
+        "00903": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 1",
+        "00905": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 2",
+        "00907": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 3",
+        "00910": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 4",
+        "00917": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 5",
+        "01004": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 1 + PRODUCT GRADUATION PLUS",
+        "01006": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 2 + PRODUCT GRADUATION PLUS",
+        "01008": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 3 + PRODUCT GRADUATION PLUS",
+        "01011": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 4 + PRODUCT GRADUATION PLUS",
+        "01018": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 5 + PRODUCT GRADUATION PLUS",
+        "01103": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 1",
+        "01105": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 2",
+        "01107": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 3",
+        "01110": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 4",
+        "01117": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 5",
+        "01204": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 1 + PRODUCT GRADUATION PLUS",
+        "01206": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 2 + PRODUCT GRADUATION PLUS",
+        "01208": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 3 + PRODUCT GRADUATION PLUS",
+        "01211": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 4 + PRODUCT GRADUATION PLUS",
+        "01218": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 5 + PRODUCT GRADUATION PLUS",
+        "01323": "AFFLUENT SHORTFALL WORLD ELITE MASTERCARD",
+        "01425": "AFFLUENT SHORTFALL WORLD ELITE MASTERCARD + PRODUCT GRADUATION PLUS",
+        "01519": "WORLD HIGH VALUE",
+        "01620": "WORLD HIGH VALUE + PRODUCT GRADUATION PLUS",
+        "01723": "AFFLUENT SHORTFALL WORLD MASTERCARD",
+        "01825": "AFFLUENT SHORTFALL WORLD MASTERCARD + PRODUCT GRADUATION PLUS",
+        "02205": "CONSUMER PRODUCT MONITORING: WORLD QUALIFIED",
+        "02207": "CONSUMER PRODUCT MONITORING: MPE QUALIFIED",
+        "02210": "CONSUMER PRODUCT MONITORING: WORLD ELITE QUALIFIED",
+        "02217": "CONSUMER PRODUCT MONITORING: MUSE MASTERCARD QUALIFIED",
+        "02301": "CONSUMER PRODUCT MONITORING: REQUALIFICATION 1 (MUSE REQUALIFIED)",
+        "02424": "CONSUMER PRODUCT MONITORING: REQUALIFICATION 2 (WORLD ELITE REQUALIFIED)",
+        "50000": "MASTERCARD ONE CREDENTIAL",
+        "50127": "MASTERCARD ONE CREDENTIAL - NO CONSUMER PREFERENCE MET",
+        "50402": "ENHANCED VALUE + MASTERCARD ONE CREDENTIAL",
+        "50513": "ENHANCED VALUE + PRODUCT GRADUATION PLUS + MASTERCARD ONE CREDENTIAL",
+        "50616": "PRODUCT GRADUATION PLUS + MASTERCARD ONE CREDENTIAL",
+        "50703": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 1 + MASTERCARD ONE CREDENTIAL",
+        "50705": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 2 + MASTERCARD ONE CREDENTIAL",
+        "50707": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 3 + MASTERCARD ONE CREDENTIAL",
+        "50710": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 4 + MASTERCARD ONE CREDENTIAL",
+        "50717": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 5 + MASTERCARD ONE CREDENTIAL",
+        "50804": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 1 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "50806": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 2 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "50808": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 3 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "50811": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 4 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "50818": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 5 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "50903": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 1 + MASTERCARD ONE CREDENTIAL",
+        "50905": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 2 + MASTERCARD ONE CREDENTIAL",
+        "50907": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 3 + MASTERCARD ONE CREDENTIAL",
+        "50910": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 4 + MASTERCARD ONE CREDENTIAL",
+        "50917": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 5 + MASTERCARD ONE CREDENTIAL",
+        "51004": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 1 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "51006": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 2 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "51008": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 3 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "51011": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 4 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "51018": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 5 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "51103": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 1 + MASTERCARD ONE CREDENTIAL",
+        "51105": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 2 + MASTERCARD ONE CREDENTIAL",
+        "51107": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 3 + MASTERCARD ONE CREDENTIAL",
+        "51110": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 4 + MASTERCARD ONE CREDENTIAL",
+        "51117": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 5 + MASTERCARD ONE CREDENTIAL",
+        "51204": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 1 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "51206": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 2 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "51208": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 3 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "51211": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 4 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "51218": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 5 + PRODUCT GRADUATION + MASTERCARD ONE",
+        "51323": "WORLD ELITE SHORTFALL + MASTERCARD ONE CREDENTIAL",
+        "51425": "WORLD ELITE SHORTFALL + PRODUCT GRADUATION + MASTERCARD ONE CREDENTIAL",
+        "51519": "WORLD HIGH VALUE + MASTERCARD ONE CREDENTIAL",
+        "51620": "WORLD HIGH VALUE + PRODUCT GRADUATION + MASTERCARD ONE CREDENTIAL",
+        "51723": "WORLD SHORTFALL + MASTERCARD ONE CREDENTIAL",
+        "51825": "WORLD SHORTFALL + PRODUCT GRADUATION + MASTERCARD ONE CREDENTIAL",
+        "52205": "CONSUMER PRODUCT MONITORING: WORLD QUALIFIED + MASTERCARD ONE CREDENTIAL",
+        "52207": "CONSUMER PRODUCT MONITORING: MPE QUALIFIED + MASTERCARD ONE CREDENTIAL",
+        "52210": "CONSUMER PRODUCT MONITORING: WORLD ELITE QUALIFIED + MASTERCARD ONE CREDENTIAL",
+        "52217": "CONSUMER PRODUCT MONITORING: MUSE QUALIFIED + MASTERCARD ONE CREDENTIAL",
+        "52301": "CONSUMER PRODUCT MONITORING: REQUALIFICATION 1 + MASTERCARD ONE CREDENTIAL",
+        "52424": "CONSUMER PRODUCT MONITORING: REQUALIFICATION 2 + MASTERCARD ONE CREDENTIAL"
+    },
+    "24.ALM_RATE_TYPES": {
+        "801": "Enhanced Value Rate Adjustment",
+        "811": "Core Business to Level 1 Adjustment",
+        "812": "Core Business to Level 2 Adjustment",
+        "813": "Core Business to Level 3 Adjustment",
+        "814": "Core Business to Level 4 Adjustment",
+        "815": "Core Business to Level 5 Adjustment",
+        "821": "World Business to Level 1 Adjustment",
+        "822": "World Business to Level 2 Adjustment",
+        "823": "World Business to Level 3 Adjustment",
+        "824": "World Business to Level 4 Adjustment",
+        "825": "World Business to Level 5 Adjustment",
+        "831": "World Elite Business to Level 1 Adjustment",
+        "832": "World Elite Business to Level 2 Adjustment",
+        "833": "World Elite Business to Level 3 Adjustment",
+        "834": "World Elite Business to Level 4 Adjustment",
+        "835": "World Elite Business to Level 5 Adjustment",
+        "850": "World High Value Adjustment",
+        "851": "World Consumer Shortfall Adjustment",
+        "852": "World Elite Consumer Shortfall Adjustment",
+        "881": "Canada World Consumer Adjustment",
+        "882": "Canada MPE Adjustment",
+        "883": "Canada World Elite Adjustment",
+        "884": "Canada MUSE Adjustment",
+        "885": "Canada MUSE Requalified Down Adjustment",
+        "886": "Canada World Elite Requalified Down Adjustment",
+        "XXX": "RATE TYPE DOES NOT APPLY OR NOT CONFIGURED"
+    },
+    "24.ALM_ACCEPTANCE_BRAND": {
+        "MCC": "Mastercard",
+        "DMC": "Debit Mastercard",
+        "MSI": "Maestro"
+    },
+    "24.ALM_INTERCHANGE": {
+        "D": "Dynamic Interchange - based on Mastercard One Credential Funding PAN",
+        "S": "Static Interchange - based on DE 2 primary PAN"
     }
-}
-
-# ========================================================================
-# DE 48, SUBELEMENT 24 - Account Level Management (ALM) Service Data
-# ========================================================================
-
-DE48_ALM_SERVICE_CODES = {
-    # Service Unavailable / Not Registered
-    "00000": "ALM SERVICE UNAVAILABLE IN AUTHORIZATION",
-    "00126": "PAN NOT REGISTERED FOR ALM, BUT ISSUER'S ACCOUNT RANGE IS ACTIVE",
-    "00127": "PAN IS REGISTERED FOR ALM, BUT TRANSACTION WAS PROCESSED AS DEBIT",
-    
-    # Enhanced Value Services
-    "00402": "ENHANCED VALUE",
-    "00513": "ENHANCED VALUE and PRODUCT GRADUATION PLUS",
-    "00616": "PRODUCT GRADUATION PLUS",
-    
-    # Small Business Spend - Credit Core Level (1-5)
-    "00703": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 1",
-    "00705": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 2",
-    "00707": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 3",
-    "00710": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 4",
-    "00717": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 5",
-    
-    # Small Business Spend - Credit Core + Product Graduation Plus
-    "00804": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 1 + PRODUCT GRADUATION PLUS",
-    "00806": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 2 + PRODUCT GRADUATION PLUS",
-    "00808": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 3 + PRODUCT GRADUATION PLUS",
-    "00811": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 4 + PRODUCT GRADUATION PLUS",
-    "00818": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 5 + PRODUCT GRADUATION PLUS",
-    
-    # Small Business Spend - Credit World Level (1-5)
-    "00903": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 1",
-    "00905": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 2",
-    "00907": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 3",
-    "00910": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 4",
-    "00917": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 5",
-    
-    # Small Business Spend - Credit World + Product Graduation Plus
-    "01004": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 1 + PRODUCT GRADUATION PLUS",
-    "01006": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 2 + PRODUCT GRADUATION PLUS",
-    "01008": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 3 + PRODUCT GRADUATION PLUS",
-    "01011": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 4 + PRODUCT GRADUATION PLUS",
-    "01018": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 5 + PRODUCT GRADUATION PLUS",
-    
-    # Small Business Spend - Credit World Elite Level (1-5)
-    "01103": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 1",
-    "01105": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 2",
-    "01107": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 3",
-    "01110": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 4",
-    "01117": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 5",
-    
-    # Small Business Spend - Credit World Elite + Product Graduation Plus
-    "01204": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 1 + PRODUCT GRADUATION PLUS",
-    "01206": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 2 + PRODUCT GRADUATION PLUS",
-    "01208": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 3 + PRODUCT GRADUATION PLUS",
-    "01211": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 4 + PRODUCT GRADUATION PLUS",
-    "01218": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 5 + PRODUCT GRADUATION PLUS",
-    
-    # Affluent Shortfall Services
-    "01323": "AFFLUENT SHORTFALL WORLD ELITE MASTERCARD",
-    "01425": "AFFLUENT SHORTFALL WORLD ELITE MASTERCARD + PRODUCT GRADUATION PLUS",
-    "01519": "WORLD HIGH VALUE",
-    "01620": "WORLD HIGH VALUE + PRODUCT GRADUATION PLUS",
-    "01723": "AFFLUENT SHORTFALL WORLD MASTERCARD",
-    "01825": "AFFLUENT SHORTFALL WORLD MASTERCARD + PRODUCT GRADUATION PLUS",
-    
-    # Consumer Product Monitoring Service
-    "02205": "CONSUMER PRODUCT MONITORING: WORLD QUALIFIED",
-    "02207": "CONSUMER PRODUCT MONITORING: MPE QUALIFIED",
-    "02210": "CONSUMER PRODUCT MONITORING: WORLD ELITE QUALIFIED",
-    "02217": "CONSUMER PRODUCT MONITORING: MUSE MASTERCARD QUALIFIED",
-    "02301": "CONSUMER PRODUCT MONITORING: REQUALIFICATION 1 (MUSE REQUALIFIED)",
-    "02424": "CONSUMER PRODUCT MONITORING: REQUALIFICATION 2 (WORLD ELITE REQUALIFIED)",
-    
-    # Mastercard One Credential Services
-    "50000": "MASTERCARD ONE CREDENTIAL",
-    "50127": "MASTERCARD ONE CREDENTIAL - NO CONSUMER PREFERENCE MET",
-    "50402": "ENHANCED VALUE + MASTERCARD ONE CREDENTIAL",
-    "50513": "ENHANCED VALUE + PRODUCT GRADUATION PLUS + MASTERCARD ONE CREDENTIAL",
-    "50616": "PRODUCT GRADUATION PLUS + MASTERCARD ONE CREDENTIAL",
-    
-    # Small Business Spend + Mastercard One Credential
-    "50703": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 1 + MASTERCARD ONE CREDENTIAL",
-    "50705": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 2 + MASTERCARD ONE CREDENTIAL",
-    "50707": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 3 + MASTERCARD ONE CREDENTIAL",
-    "50710": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 4 + MASTERCARD ONE CREDENTIAL",
-    "50717": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 5 + MASTERCARD ONE CREDENTIAL",
-    
-    "50804": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 1 + PRODUCT GRADUATION + MASTERCARD ONE",
-    "50806": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 2 + PRODUCT GRADUATION + MASTERCARD ONE",
-    "50808": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 3 + PRODUCT GRADUATION + MASTERCARD ONE",
-    "50811": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 4 + PRODUCT GRADUATION + MASTERCARD ONE",
-    "50818": "SMALL BUSINESS SPEND - CREDIT CORE LEVEL 5 + PRODUCT GRADUATION + MASTERCARD ONE",
-    
-    "50903": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 1 + MASTERCARD ONE CREDENTIAL",
-    "50905": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 2 + MASTERCARD ONE CREDENTIAL",
-    "50907": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 3 + MASTERCARD ONE CREDENTIAL",
-    "50910": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 4 + MASTERCARD ONE CREDENTIAL",
-    "50917": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 5 + MASTERCARD ONE CREDENTIAL",
-    
-    "51004": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 1 + PRODUCT GRADUATION + MASTERCARD ONE",
-    "51006": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 2 + PRODUCT GRADUATION + MASTERCARD ONE",
-    "51008": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 3 + PRODUCT GRADUATION + MASTERCARD ONE",
-    "51011": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 4 + PRODUCT GRADUATION + MASTERCARD ONE",
-    "51018": "SMALL BUSINESS SPEND - CREDIT WORLD LEVEL 5 + PRODUCT GRADUATION + MASTERCARD ONE",
-    
-    "51103": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 1 + MASTERCARD ONE CREDENTIAL",
-    "51105": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 2 + MASTERCARD ONE CREDENTIAL",
-    "51107": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 3 + MASTERCARD ONE CREDENTIAL",
-    "51110": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 4 + MASTERCARD ONE CREDENTIAL",
-    "51117": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 5 + MASTERCARD ONE CREDENTIAL",
-    
-    "51204": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 1 + PRODUCT GRADUATION + MASTERCARD ONE",
-    "51206": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 2 + PRODUCT GRADUATION + MASTERCARD ONE",
-    "51208": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 3 + PRODUCT GRADUATION + MASTERCARD ONE",
-    "51211": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 4 + PRODUCT GRADUATION + MASTERCARD ONE",
-    "51218": "SMALL BUSINESS SPEND - CREDIT WORLD ELITE LEVEL 5 + PRODUCT GRADUATION + MASTERCARD ONE",
-    
-    "51323": "WORLD ELITE SHORTFALL + MASTERCARD ONE CREDENTIAL",
-    "51425": "WORLD ELITE SHORTFALL + PRODUCT GRADUATION + MASTERCARD ONE CREDENTIAL",
-    "51519": "WORLD HIGH VALUE + MASTERCARD ONE CREDENTIAL",
-    "51620": "WORLD HIGH VALUE + PRODUCT GRADUATION + MASTERCARD ONE CREDENTIAL",
-    "51723": "WORLD SHORTFALL + MASTERCARD ONE CREDENTIAL",
-    "51825": "WORLD SHORTFALL + PRODUCT GRADUATION + MASTERCARD ONE CREDENTIAL",
-    
-    # Consumer Product Monitoring + Mastercard One
-    "52205": "CONSUMER PRODUCT MONITORING: WORLD QUALIFIED + MASTERCARD ONE CREDENTIAL",
-    "52207": "CONSUMER PRODUCT MONITORING: MPE QUALIFIED + MASTERCARD ONE CREDENTIAL",
-    "52210": "CONSUMER PRODUCT MONITORING: WORLD ELITE QUALIFIED + MASTERCARD ONE CREDENTIAL",
-    "52217": "CONSUMER PRODUCT MONITORING: MUSE QUALIFIED + MASTERCARD ONE CREDENTIAL",
-    "52301": "CONSUMER PRODUCT MONITORING: REQUALIFICATION 1 + MASTERCARD ONE CREDENTIAL",
-    "52424": "CONSUMER PRODUCT MONITORING: REQUALIFICATION 2 + MASTERCARD ONE CREDENTIAL",
-}
-
-DE48_ALM_PRODUCT_CODES = {
-    "XXX": "NOT APPLICABLE / NOT REGISTERED",
-    # Complete product code listing in Account Level Management Manual
-}
-
-DE48_ALM_PRODUCT_CLASS = {
-    "XXX": "NOT APPLICABLE / NOT REGISTERED",
-}
-
-DE48_ALM_RATE_TYPES = {
-    "801": "Enhanced Value Rate Adjustment",
-    "811": "Core Business to Level 1 Adjustment",
-    "812": "Core Business to Level 2 Adjustment",
-    "813": "Core Business to Level 3 Adjustment",
-    "814": "Core Business to Level 4 Adjustment",
-    "815": "Core Business to Level 5 Adjustment",
-    "821": "World Business to Level 1 Adjustment",
-    "822": "World Business to Level 2 Adjustment",
-    "823": "World Business to Level 3 Adjustment",
-    "824": "World Business to Level 4 Adjustment",
-    "825": "World Business to Level 5 Adjustment",
-    "831": "World Elite Business to Level 1 Adjustment",
-    "832": "World Elite Business to Level 2 Adjustment",
-    "833": "World Elite Business to Level 3 Adjustment",
-    "834": "World Elite Business to Level 4 Adjustment",
-    "835": "World Elite Business to Level 5 Adjustment",
-    "850": "World High Value Adjustment",
-    "851": "World Consumer Shortfall Adjustment",
-    "852": "World Elite Consumer Shortfall Adjustment",
-    "881": "Canada World Consumer Adjustment",
-    "882": "Canada MPE Adjustment",
-    "883": "Canada World Elite Adjustment",
-    "884": "Canada MUSE Adjustment",
-    "885": "Canada MUSE Requalified Down Adjustment",
-    "886": "Canada World Elite Requalified Down Adjustment",
-    "XXX": "RATE TYPE DOES NOT APPLY OR NOT CONFIGURED",
-}
-
-DE48_ALM_ACCEPTANCE_BRAND = {
-    "MCC": "Mastercard",
-    "DMC": "Debit Mastercard",
-    "MSI": "Maestro",
-}
-
-DE48_ALM_INTERCHANGE_INDICATOR = {
-    "D": "Dynamic Interchange - based on Mastercard One Credential Funding PAN",
-    "S": "Static Interchange - based on DE 2 primary PAN",
 }
 
 # Mastercard One Credential service code patterns for detection
@@ -793,81 +991,6 @@ MC_ONE_SERVICE_PATTERNS = [
     "52205", "52207", "52210", "52217", "52301", "52424"
 ]
 
-# ========================================================================
-# DE 48, SUBELEMENT 64 - Transit Program
-# ========================================================================
-
-DE48_TRANSIT_TYPES = {
-    "01": "Prefunded",
-    "02": "Real-time Authorized",
-    "03": "Post-Authorized Aggregated",
-    "04": "Authorized Aggregated Split Clearing",
-    "05": "Other",
-    "06": "Post-authorized Aggregated Maestro",
-    "07": "Debt Recovery",
-}
-
-DE48_TRANSPORT_MODES = {
-    "00": "Unknown",
-    "01": "Urban Bus",
-    "02": "Interurban Bus",
-    "03": "Light Train Mass Transit (Underground Metro, LTR)",
-    "04": "Train",
-    "05": "Commuter Train",
-    "06": "Water Borne Vehicle",
-    "07": "Toll",
-    "08": "Parking",
-    "09": "Taxi",
-    "10": "High Speed Train",
-    "11": "Rural Bus",
-    "12": "Express Commuter Train",
-    "13": "Para Transit",
-    "14": "Self Drive Vehicle",
-    "15": "Coach",
-    "16": "Locomotive",
-    "17": "Powered Motor Vehicle",
-    "18": "Trailer",
-    "19": "Regional Train",
-    "20": "Inter City",
-    "21": "Funicular Train",
-    "22": "Cable Car",
-}
-
-# ========================================================================
-# DE 48, SUBELEMENT 71 - Additional OBS Result Values
-# ========================================================================
-
-# Additional OBS result codes that were missing
-DE48_OBS_ADDITIONAL = {
-    "71.OBS05_06_EXTENDED": {
-        "kA": "Fully Authenticated - SPA2 AAV (SLI 212)",
-        "kB": "Fully Authenticated - SPA2 AAV (SLI 212)",
-        "kC": "Fully Authenticated - SPA2 AAV (SLI 212)",
-        "kD": "Fully Authenticated - SPA2 AAV (SLI 212)",
-        "kE": "Attempts Only - SPA2 AAV (SLI 211)",
-        "kF": "Attempts Only - SPA2 AAV (SLI 211)",
-        "kG": "Fully Authenticated - SPA2 AAV (SLI 212)",
-        "kH": "Fully Authenticated - SPA2 AAV (SLI 212)",
-        "kJ": "Fully Authenticated - SPA2 AAV (SLI 212)",
-        "kK": "Fully Authenticated - SPA2 AAV (SLI 212)",
-        "kL": "Attempts Only - SPA2 AAV (SLI 211)",
-        "kM": "Attempts Only - SPA2 AAV (SLI 211)",
-        "kN": "Risk Based Decisioning - SPA2 AAV (SLI 216)",
-        "kO": "Merchant Initiated - SPA2 AAV (SLI 217)",
-        "kP": "Merchant Initiated - SPA2 AAV (SLI 217)",
-        "kQ": "AAV Refresh - SPA2 AAV (SLI 212)",
-        "kR": "Fully Authenticated - SPA2 AAV (SLI 212)",
-        "kS": "Fully Authenticated - SPA2 AAV (SLI 212)",
-        "kT": "Fully Authenticated - SPA2 AAV (SLI 212)",
-        "kU": "Risk Based Decisioning - SPA2 AAV (SLI 216)",
-        "kV": "Risk Based Decisioning - SPA2 AAV (SLI 216)",
-        "kW": "Risk Based Decisioning - SPA2 AAV (SLI 216)",
-        "kX": "Insights - SPA2 AAV (SLI 214)",
-        "kY": "Insights - SPA2 AAV (SLI 214)",
-        "kZ": "Insights - SPA2 AAV (SLI 214)"
-    }
-}
-
 
 def decode_de48_subelement(se_tag: str, value: str) -> str:
     """
@@ -879,12 +1002,8 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
     validation_err = ""
     
     # Check simple flat code enumerations first
-    simple_tags = ["01", "12", "14", "15", "17", "18", "20", "25", "29", "35", "38", "39", 
-                   "45", "47", "49", "52", "53", "76", "80", "82", "83", "85", "86", "88", 
-                   "89", "90", "94", "95", "96", "97"]
-    
-    if se_tag in simple_tags:
-        meaning = DE48_VALUE_TABLES.get(se_tag, {}).get(clean_val, f"Value recognized but description unassigned")
+    if se_tag in DE48_VALUE_TABLES and se_tag not in ("21", "22", "24", "42", "48", "61", "62", "71", "78"):
+        meaning = DE48_VALUE_TABLES[se_tag].get(clean_val, "Value recognized but description unassigned")
         return f"{tag_name}: {meaning}"
 
     # Advanced Multi-Position Layouts Logic
@@ -907,6 +1026,14 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         
         pos = 0
         result_parts = []
+        
+        # Check for M208 (Resubmission) pattern
+        if clean_val.startswith("M208"):
+            result_parts.append("Type: Resubmission")
+            remaining = clean_val[4:]
+            if remaining:
+                result_parts.append(f"Additional: {remaining}")
+            return f"{tag_name} -> {' | '.join(result_parts)}{validation_err}"
         
         if len(clean_val) > pos:
             val = clean_val[pos]
@@ -934,21 +1061,7 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         
         if len(clean_val) > pos:
             remaining = clean_val[pos:]
-            if remaining.startswith("M208"):
-                result_parts.append("Resubmission")
-            elif remaining in ["01", "02", "03", "04", "05", "06", "07", "08"]:
-                mode_desc = {
-                    "01": "CIT - Consumer agrees to store credential",
-                    "02": "CIT - Standing Order (variable amount)",
-                    "03": "CIT - Subscription (fixed amount)",
-                    "04": "CIT - Installment",
-                    "05": "MIT - Unscheduled Recurring",
-                    "06": "MIT - Standing Order",
-                    "07": "MIT - Subscription",
-                    "08": "MIT - Installment"
-                }.get(remaining, f"Unknown CIT/MIT mode: {remaining}")
-                result_parts.append(f"CIT/MIT: {mode_desc}")
-            else:
+            if remaining:
                 result_parts.append(f"Additional: {remaining}")
         
         return f"{tag_name} -> {' | '.join(result_parts)}{validation_err}"
@@ -960,7 +1073,7 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
             meaning = DE48_VALUE_TABLES["23"].get(clean_val[:2], f"Unknown Payment Channel Code '{clean_val[:2]}'")
             return f"{tag_name} -> {meaning}{validation_err}"
         return f"{tag_name}: `{clean_val}`{validation_err}"
-    
+        
     if se_tag == "24":
         if len(clean_val) < 5:
             validation_err = " [Warning: Minimum 5 characters required for ALM Service Code]"
@@ -972,7 +1085,7 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         
         result_parts = []
         
-        service_desc = DE48_ALM_SERVICE_CODES.get(service_code, f"UNKNOWN SERVICE: {service_code}")
+        service_desc = DE48_VALUE_TABLES["24.ALM_SERVICES"].get(service_code, f"UNKNOWN SERVICE: {service_code}")
         result_parts.append(f"Service: {service_code} ({service_desc})")
         
         if service_code in MC_ONE_SERVICE_PATTERNS:
@@ -981,35 +1094,34 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         if len(clean_val) >= pos + 3:
             product_code = clean_val[pos:pos+3]
             pos += 3
-            product_desc = DE48_ALM_PRODUCT_CODES.get(product_code, f"UNKNOWN: {product_code}")
+            # Product code values are variable - just show the code
             if product_code != "XXX":
-                result_parts.append(f"Product: {product_code} ({product_desc})")
+                result_parts.append(f"Product Code: {product_code}")
         
         if len(clean_val) >= pos + 3:
             class_code = clean_val[pos:pos+3]
             pos += 3
-            class_desc = DE48_ALM_PRODUCT_CLASS.get(class_code, f"UNKNOWN: {class_code}")
             if class_code != "XXX":
-                result_parts.append(f"Class: {class_code} ({class_desc})")
+                result_parts.append(f"Class Code: {class_code}")
         
         if len(clean_val) >= pos + 3:
             rate_code = clean_val[pos:pos+3]
             pos += 3
-            rate_desc = DE48_ALM_RATE_TYPES.get(rate_code, f"UNKNOWN: {rate_code}")
+            rate_desc = DE48_VALUE_TABLES["24.ALM_RATE_TYPES"].get(rate_code, f"UNKNOWN: {rate_code}")
             if rate_code != "XXX":
                 result_parts.append(f"Rate: {rate_code} ({rate_desc})")
         
         if len(clean_val) >= pos + 4:
             brand = clean_val[pos:pos+3]
             pos += 3
-            brand_desc = DE48_ALM_ACCEPTANCE_BRAND.get(brand, f"UNKNOWN: {brand}")
-            if brand in DE48_ALM_ACCEPTANCE_BRAND:
+            brand_desc = DE48_VALUE_TABLES["24.ALM_ACCEPTANCE_BRAND"].get(brand, f"UNKNOWN: {brand}")
+            if brand in DE48_VALUE_TABLES["24.ALM_ACCEPTANCE_BRAND"]:
                 result_parts.append(f"Brand: {brand} ({brand_desc})")
             
             indicator = clean_val[pos:pos+1]
             pos += 1
-            ind_desc = DE48_ALM_INTERCHANGE_INDICATOR.get(indicator, f"UNKNOWN: {indicator}")
-            if indicator in DE48_ALM_INTERCHANGE_INDICATOR:
+            ind_desc = DE48_VALUE_TABLES["24.ALM_INTERCHANGE"].get(indicator, f"UNKNOWN: {indicator}")
+            if indicator in DE48_VALUE_TABLES["24.ALM_INTERCHANGE"]:
                 result_parts.append(f"Interchange: {indicator} ({ind_desc})")
             
             account_range = clean_val[pos:]
@@ -1056,24 +1168,6 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
             return f"{tag_name} -> Domain: {dom_id} | Program: {program_type if program_type else clean_val[1:]}"
         return f"{tag_name}: `{clean_val}`"
     
-    if se_tag == "50":
-        return f"{tag_name} -> Embedded Interchange Data: `{clean_val}`"
-
-    if se_tag == "51":
-        return f"{tag_name} -> Merchant On-behalf Services: `{clean_val}`"
-
-    if se_tag == "55":
-        return f"{tag_name} -> Fraud Scoring Data: `{clean_val}`"
-
-    if se_tag == "56":
-        return f"{tag_name} -> Security Services (Issuer): `{clean_val}`"
-
-    if se_tag == "57":
-        return f"{tag_name} -> Security Services (Acquirer): `{clean_val}`"
-
-    if se_tag == "60":
-        return f"{tag_name} -> Additional Service Data: `{clean_val}`"
-
     if se_tag == "61":
         if len(clean_val) != 5:
             validation_err = " [Warning: Expected length exactly 5]"
@@ -1143,8 +1237,8 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         if len(clean_val) >= 4:
             transit_type = clean_val[:2]
             transport_mode = clean_val[2:4]
-            type_desc = DE48_TRANSIT_TYPES.get(transit_type, f"Unknown Type: {transit_type}")
-            mode_desc = DE48_TRANSPORT_MODES.get(transport_mode, f"Unknown Mode: {transport_mode}")
+            type_desc = DE48_VALUE_TABLES["64.SUB1"].get(transit_type, f"Unknown Type: {transit_type}")
+            mode_desc = DE48_VALUE_TABLES["64.SUB2"].get(transport_mode, f"Unknown Mode: {transport_mode}")
             return f"{tag_name} -> Type: {type_desc} | Mode: {mode_desc}{validation_err}"
         return f"{tag_name}: `{clean_val}`{validation_err}"
 
@@ -1197,8 +1291,6 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
             elif svc_code == "04":
                 res_desc = DE48_VALUE_TABLES["71.OBS04"].get(res_code, f"Unknown Code '{res_code}'")
             elif svc_code in ("05", "06"):
-                # For OBS 05 and 06, the result code is a single character
-                # Valid values: A, B, C, D, E, F, I, K, M, P, S, T, U, V, X, Z
                 res_desc = DE48_VALUE_TABLES["71.OBS05_06"].get(res_code, f"Unknown Code '{res_code}'")
             elif svc_code in ("08", "09"):
                 res_desc = DE48_VALUE_TABLES["71.OBS08_09"].get(res_code, f"Unknown Code '{res_code}'")
@@ -1257,7 +1349,10 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         return f"{tag_name}: `{clean_val}`"
 
     if se_tag == "75":
-        return f"{tag_name} -> Fraud Score Data: `{clean_val}`"
+        if len(clean_val) >= 1:
+            desc = DE48_VALUE_TABLES["75"].get(clean_val[0], f"Unknown Status: {clean_val[0]}")
+            return f"{tag_name} -> {desc}"
+        return f"{tag_name}: `{clean_val}`"
 
     if se_tag == "76":
         meaning = DE48_VALUE_TABLES["76"].get(clean_val, f"Unknown Electronic Acceptance: {clean_val}")
@@ -1310,10 +1405,50 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         meaning = DE48_VALUE_TABLES["80"].get(clean_val, "Unknown PIN verification handling configuration")
         return f"{tag_name} -> Action context: {meaning}{validation_err}"
 
+    if se_tag == "82":
+        meaning = DE48_VALUE_TABLES["82"].get(clean_val, f"Unknown AVS request code: {clean_val}")
+        return f"{tag_name} -> {meaning}"
+
+    if se_tag == "83":
+        if len(clean_val) != 1:
+            validation_err = " [Warning: Expected length exactly 1]"
+        meaning = DE48_VALUE_TABLES["83"].get(clean_val, f"Unknown AVS response: {clean_val}")
+        return f"{tag_name} -> {meaning}{validation_err}"
+
+    if se_tag == "84":
+        if len(clean_val) != 2:
+            validation_err = " [Warning: Expected length exactly 2]"
+        meaning = DE48_VALUE_TABLES["84"].get(clean_val, f"Unknown Merchant Advice Code: {clean_val}")
+        return f"{tag_name} -> {meaning}{validation_err}"
+
+    if se_tag == "85":
+        if len(clean_val) != 1:
+            validation_err = " [Warning: Expected length exactly 1]"
+        meaning = DE48_VALUE_TABLES["85"].get(clean_val, f"Unknown Account Status: {clean_val}")
+        return f"{tag_name} -> {meaning}{validation_err}"
+
+    if se_tag == "86":
+        if len(clean_val) != 1:
+            validation_err = " [Warning: Expected length exactly 1]"
+        meaning = DE48_VALUE_TABLES["86"].get(clean_val, f"Unknown Relationship: {clean_val}")
+        return f"{tag_name} -> {meaning}{validation_err}"
+
     if se_tag == "87":
         if len(clean_val) != 1:
             validation_err = " [Warning: Expected length exactly 1]"
         meaning = DE48_VALUE_TABLES["87"].get(clean_val, f"Unknown CVC Result: {clean_val}")
+        return f"{tag_name} -> {meaning}{validation_err}"
+
+    if se_tag == "88":
+        if len(clean_val) != 1:
+            validation_err = " [Warning: Expected length exactly 1]"
+        meaning = DE48_VALUE_TABLES["88"].get(clean_val, f"Unknown Compliance Status: {clean_val}")
+        return f"{tag_name} -> {meaning}{validation_err}"
+
+    if se_tag == "89":
+        if len(clean_val) != 1:
+            validation_err = " [Warning: Expected length exactly 1]"
+        meaning = DE48_VALUE_TABLES["89"].get(clean_val, f"Unknown Error Code: {clean_val}")
         return f"{tag_name} -> {meaning}{validation_err}"
 
     if se_tag == "90":
@@ -1333,11 +1468,26 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
     if se_tag == "93":
         return f"{tag_name} -> Fleet Card Data: `{clean_val}`"
 
+    if se_tag == "94":
+        if len(clean_val) != 1:
+            validation_err = " [Warning: Expected length exactly 1]"
+        meaning = DE48_VALUE_TABLES["94"].get(clean_val, f"Unknown Commercial Card Status: {clean_val}")
+        return f"{tag_name} -> {meaning}{validation_err}"
+
     if se_tag == "95":
         if clean_val in DE48_VALUE_TABLES["95"]:
             return f"{tag_name} -> {DE48_VALUE_TABLES['95'][clean_val]}"
         else:
             return f"{tag_name} -> Promotion Code: {clean_val}"
+
+    if se_tag == "96":
+        return f"{tag_name} -> Market-specific Data: `{clean_val}`"
+
+    if se_tag == "97":
+        if len(clean_val) != 1:
+            validation_err = " [Warning: Expected length exactly 1]"
+        meaning = DE48_VALUE_TABLES["97"].get(clean_val, f"Unknown Property Status: {clean_val}")
+        return f"{tag_name} -> {meaning}{validation_err}"
 
     if se_tag == "98":
         return f"{tag_name} -> Driver Number: `{clean_val}`"

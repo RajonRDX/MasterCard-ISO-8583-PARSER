@@ -77,7 +77,25 @@ DELIBERATELY NOT (yet) covered, and why:
 Every entry below is either (a) transcribed from the Mastercard Dual
 Message Authorization System Guide, or (b) derived directly from a
 byte-for-byte confirmed sample.
+
+CURRENCY FORMATTING (added):
+currency_dict.py (CURRENCY_DISPLAY: {"050": ("BDT", "Taka"), ...}) must sit
+in the same folder as this file and mastercard_iso8583_parser.py. It backs
+two things:
+  - _detail_currency() below now names the currency in the F49/50/51
+    "Detail" line using the full table, not just the old 2-entry shortlist.
+  - format_currency_amount() turns a raw DE4/5/6 amount (implied last-2-
+    digit decimal, standard ISO 8583 convention) plus its paired DE49/50/51
+    code into a human amount, e.g. "1,000 BDT (Taka)". format_field_report()
+    calls this automatically and appends it as a new "* Formatted:" line
+    right after "* Detail:" for F4, F5, and F6 only (the three DE that
+    carry a monetary amount paired with a currency code field).
 """
+
+try:
+    from currency_dict import CURRENCY_DISPLAY
+except ImportError:
+    CURRENCY_DISPLAY = {}
 
 # ---------------------------------------------------------------------------
 # Simple code -> meaning tables
@@ -356,7 +374,7 @@ FIELD_GLOSSARY = {
     "F6": "Amount, Cardholder Billing - the transaction amount in the issuer's currency (F51); the "
           "amount billed to the cardholder in the cardholder account currency, excluding cardholder "
           "billing fees.",
-    "F7": "Transmission Date and Time - the date and time the message was entered into the "
+    "F7": "Transmission Date and Time(MMDDHHMISS) - the date and time the message was entered into the "
           "Mastercard Network, expressed in Coordinated Universal Time (UTC).",
     "F9": "Conversion Rate, Reconciliation (spec name: Conversion Rate, Settlement) - the factor "
           "used to convert F4 (Amount, Transaction) into F5 (Amount, Settlement): F4 x F9 = F5.",
@@ -364,15 +382,15 @@ FIELD_GLOSSARY = {
            "Transaction) into F6 (Amount, Cardholder Billing): F4 x F10 = F6.",
     "F11": "Systems Trace Audit Number (STAN) - a number the message initiator assigns to uniquely "
            "identify a transaction.",
-    "F12": "Time, Local Transaction - the local time at which the transaction takes place at the "
+    "F12": "Time, Local Transaction (hhmmss) [UTC Time Format] - the local time at which the transaction takes place at the "
            "point-of-interaction location.",
-    "F13": "Date, Local Transaction - the local month and day on which the transaction takes place "
+    "F13": "Date, Local Transaction(MMDD) - the local month and day on which the transaction takes place "
            "at the point-of-interaction location.",
-    "F14": "Date, Expiration - the year and month after which the issuer designates the "
+    "F14": "Date, Expiration (YYMM) - the year and month after which the issuer designates the "
            "cardholder's card to be expired.",
-    "F15": "Date, Settlement - the date (month and day) that funds will be transferred between an "
+    "F15": "Date, Settlement (MMDD)- the date (month and day) that funds will be transferred between an "
            "acquirer and an issuer or an appropriate intermediate network facility (INF).",
-    "F16": "Date, Conversion - the effective date of F9 (Conversion Rate, Reconciliation) and F10 "
+    "F16": "Date, Conversion (MMDD) - the effective date of F9 (Conversion Rate, Reconciliation) and F10 "
            "(Conversion Rate, Cardholder Billing) whenever those data elements are present in the message.",
     "F18": "Merchant Type - the classification (acceptor business code / Merchant Category Code "
            "[MCC]) of the merchant's type of business or service.",
@@ -536,6 +554,102 @@ def _detail_f52(value: str) -> str:
             "and not recoverable here.")
 
 
+_MONTH_NAMES = {
+    "01": "January", "02": "February", "03": "March", "04": "April",
+    "05": "May", "06": "June", "07": "July", "08": "August",
+    "09": "September", "10": "October", "11": "November", "12": "December",
+}
+
+
+def _detail_f35(value: str) -> str:
+    """
+    DE 35 (Track 2 Data): <PAN>=<YYMM expiration><3-digit service code><discretionary data>
+    e.g. "37533171******5697=3102226*************" ->
+      PAN                : 37533171******5697  (masked)
+      Field Separator    : =
+      Expiration (YYMM)  : 3102  -> February 2031
+      Service Code       : 226
+      Discretionary Data : *************
+    """
+    raw = value or ""
+    if "=" not in raw:
+        return (f"Track 2 Data - no field separator ('=') found in '{raw}'; cannot split PAN from "
+                "expiration/service code/discretionary data.")
+
+    pan, rest = raw.split("=", 1)
+    parts = [
+        f"Primary Account Number (PAN) = {pan} (masked, the cardholder's account number)",
+        "Field Separator = '=' (splits the PAN from expiration/service code/discretionary data)",
+    ]
+    if len(rest) < 4:
+        parts.append(f"Remainder too short ({len(rest)} char(s)) to contain a 4-digit expiration "
+                      f"date; got '{rest}'.")
+        return " | ".join(parts)
+
+    expiry, tail = rest[:4], rest[4:]
+    yy, mm = expiry[:2], expiry[2:4]
+    month_label = _MONTH_NAMES.get(mm, f"month {mm}")
+    parts.append(f"Expiration Date (YYMM) = {expiry}: {month_label} 20{yy}")
+
+    service_code, discretionary = tail[:3], tail[3:]
+    if service_code:
+        parts.append(f"Service Code = {service_code} (interoperability/authorization rules for "
+                      "this card profile)")
+    if discretionary:
+        parts.append(f"Discretionary Data = {discretionary} (masked validation data payload, e.g. "
+                      "CVV1/CVC1)")
+    return " | ".join(parts)
+
+
+def _detail_f37(value: str) -> str:
+    """
+    DE 37 (Retrieval Reference Number), CIS-style ydddhhnnnnnn format, 12 chars:
+      y      (pos 1)    : last digit of the transmission year, equivalent to F7 (Transmission
+                           Date and Time)
+      ddd    (pos 2-4)  : day of year (001-366), equivalent to F7
+      hh     (pos 5-6)  : hour (00-23), the hours value from F7
+      nnnnnn (pos 7-12) : Systems Trace Audit Number, the value from F11
+    Only positions 1-4 are edited by the network; positions 5-12 are expected
+    to be constructed by the endpoint from F7 and F11.
+    """
+    digits = value.strip()
+    if len(digits) != 12:
+        return (f"Retrieval Reference Number (RRN) - expected 12 characters in 'ydddhhnnnnnn' "
+                f"format; got '{value}' ({len(digits)} char(s)).")
+    y, ddd, hh, stan = digits[0], digits[1:4], digits[4:6], digits[6:12]
+    return (
+        f"Position 1 (Year digit) = {y}: last digit of the transmission year (from F7) | "
+        f"Positions 2-4 (Day of Year) = {ddd}: day {int(ddd)} of the year (from F7) | "
+        f"Positions 5-6 (Hour) = {hh}: hour {hh} UTC (from F7) | "
+        f"Positions 7-12 (STAN) = {stan}: should match F11 (Systems Trace Audit Number)"
+    )
+
+
+def format_f37_cross_check(value: str, value_map: dict):
+    """
+    Cross-check F37's decoded STAN/hour against this message's own F11 and
+    F7, since per spec positions 5-12 are supposed to be built directly
+    from those two fields. Returns None if F37 isn't 12 chars.
+    """
+    digits = value.strip()
+    if len(digits) != 12:
+        return None
+    hh, stan = digits[4:6], digits[6:12]
+
+    bits = [f"Year digit {digits[0]}, Day-of-year {digits[1:4]}, Hour {hh}, STAN {stan}"]
+
+    f11 = (value_map.get("F11") or "").strip()
+    if f11:
+        bits.append("STAN matches F11" if stan == f11.zfill(6) else f"STAN does NOT match F11 ({f11})")
+
+    f7 = (value_map.get("F7") or "").strip()  # F7 is MMDDhhmmss, 10 chars
+    if len(f7) == 10:
+        f7_hour = f7[4:6]
+        bits.append("hour matches F7" if hh == f7_hour else f"hour does NOT match F7 ({f7_hour})")
+
+    return " | ".join(bits)
+
+
 def _detail_f55_generic(tag: str, value: str) -> str:
     return (
         f"EMV tag {tag.upper()} value, rendered as hex pass-through (or decimal for a small set of "
@@ -545,6 +659,10 @@ def _detail_f55_generic(tag: str, value: str) -> str:
 
 def _detail_currency(value: str) -> str:
     code = value.strip()
+    entry = CURRENCY_DISPLAY.get(code)
+    if entry:
+        alpha, name = entry
+        return f"{name} ({alpha}) (ISO 4217 numeric currency code)."
     meaning = VALUE_TABLES.get("CURRENCY_CODE", {}).get(code)
     if meaning:
         return f"{meaning} (ISO 4217 numeric currency code)."
@@ -560,6 +678,110 @@ def _detail_mti(value: str) -> str:
             "(only 0100/0110/0400/0410/0420/0430 are confirmed against sample traffic so far).")
 
 
+# ---------------------------------------------------------------------------
+# DE4/5/6 amount + DE49/50/51 currency code -> human amount, e.g.
+# "1,000 BDT (Taka)". Amounts in these three fields carry an IMPLIED last-2-
+# digit decimal (standard ISO 8583 convention, confirmed here against
+# 000000100000 + F49="050" -> 1,000.00 BDT).
+# ---------------------------------------------------------------------------
+
+AMOUNT_FIELD_TO_CURRENCY_FIELD = {
+    "F4": "F49",   # Amount, Transaction        <-> Currency Code, Transaction
+    "F5": "F50",   # Amount, Reconciliation      <-> Currency Code, Reconciliation
+    "F6": "F51",   # Amount, Cardholder Billing  <-> Currency Code, Cardholder Billing
+}
+
+
+def _currency_label(code: str):
+    """Return (alpha_code, name) for a DE49/50/51 numeric code, spec-sourced
+    CURRENCY_DISPLAY table first, then the small legacy shortlist, else None."""
+    code = (code or "").strip()
+    if not code:
+        return None
+    entry = CURRENCY_DISPLAY.get(code)
+    if entry:
+        return entry
+    legacy = VALUE_TABLES.get("CURRENCY_CODE", {}).get(code)
+    if legacy:
+        return (code, legacy.rstrip("."))
+    return None
+
+
+def format_currency_amount(amount_value: str, currency_code: str):
+    """
+    Turn a raw DE4/5/6 amount string plus its paired DE49/50/51 currency
+    code into a human-readable amount, e.g.
+        format_currency_amount("000000100000", "050") -> "1,000 BDT (Taka)"
+    The last 2 digits are always the implied decimal places, per ISO 8583.
+    Returns None if there's no amount to format.
+    """
+    digits = "".join(ch for ch in (amount_value or "") if ch.isdigit())
+    if not digits:
+        return None
+    digits = digits.zfill(3)  # guarantee at least 1 major + 2 minor digits
+    major, minor = digits[:-2], digits[-2:]
+    major_grouped = f"{int(major):,}"
+    amount_display = major_grouped if minor == "00" else f"{major_grouped}.{minor}"
+
+    label = _currency_label(currency_code)
+    if label is None:
+        code = (currency_code or "").strip()
+        return f"{amount_display} {code}".strip() if code else amount_display
+    alpha, name = label
+    return f"{amount_display} {alpha} ({name})"
+
+
+# ---------------------------------------------------------------------------
+# DE9/10 (Conversion Rate) -> "Conversion: ... | Settlement amount = ..."
+# DE9/10 is 8 digits: digit 1 = exponent (decimal places), digits 2-8 =
+# 7-digit mantissa. rate = mantissa / 10**exponent (e.g. "70081500" ->
+# 81500 / 10**7 = 0.0081500). Paired with F4 (source amount) and the
+# matching currency field (F50 for F9, F51 for F10) to derive the
+# settlement/billing amount: F4 x rate = settlement amount.
+# ---------------------------------------------------------------------------
+
+CONVERSION_FIELD_MAP = {
+    "F9":  {"amount_field": "F4", "currency_field": "F50"},   # -> Amount, Reconciliation (F5)
+    "F10": {"amount_field": "F4", "currency_field": "F51"},   # -> Amount, Cardholder Billing (F6)
+}
+
+
+def parse_conversion_rate(raw_value: str):
+    """8-digit DE9/10 -> float rate, or None if not exactly 8 digits."""
+    digits = "".join(ch for ch in (raw_value or "") if ch.isdigit())
+    if len(digits) != 8:
+        return None
+    exponent = int(digits[0])
+    mantissa = int(digits[1:])
+    return mantissa / (10 ** exponent)
+
+
+def format_conversion_and_settlement(conversion_label: str, conversion_value: str, value_map: dict):
+    """
+    Build the "Conversion: ... | Settlement amount = ..." line for F9/F10.
+    Uses value_map (label -> value, built once per message by
+    format_field_report) to pull the paired amount field (F4) and currency
+    field (F50/F51). Returns None if the rate or amount can't be parsed.
+    """
+    cfg = CONVERSION_FIELD_MAP.get(conversion_label)
+    if cfg is None:
+        return None
+    rate = parse_conversion_rate(conversion_value)
+    if rate is None:
+        return None
+
+    amount_digits = "".join(ch for ch in (value_map.get(cfg["amount_field"], "") or "") if ch.isdigit())
+    rate_str = f"{rate:.7f}".rstrip("0").rstrip(".")
+    if not amount_digits:
+        return f"Conversion: {rate_str}"
+
+    base_amount = int(amount_digits) / 100          # F4's own implied 2 decimals
+    settlement_cents = round(base_amount * rate * 100)
+    settlement_str = format_currency_amount(str(settlement_cents), value_map.get(cfg["currency_field"]))
+
+    return f"Conversion: {rate_str} | Settlement amount = {settlement_str}"
+
+
 DETAIL_FUNCS = {
     "MTI": _detail_mti,
     "F39": _detail_f39,
@@ -567,6 +789,8 @@ DETAIL_FUNCS = {
     "F3.2": _detail_f3_2,
     "F3.3": _detail_f3_3,
     "F22": _detail_f22,
+    "F35": _detail_f35,
+    "F37": _detail_f37,
     "F48.61": _detail_f48_61,
     "F48.87": _detail_f48_87,
     "F48.92": _detail_f48_92,
@@ -641,8 +865,16 @@ def format_field_report(rows) -> str:
     Given a list of (label, description, raw_hex, value) rows - the same
     shape mastercard_iso8583_parser.py's parse_message_full() produces -
     render the 'F39: Response Code / * Value: `00` / * Detail: ...' style
-    report.
+    report. For F4/F5/F6 (Amount, Transaction/Reconciliation/Cardholder
+    Billing), a "* Formatted:" line is appended after "* Detail:", pairing
+    the amount with its currency code from F49/F50/F51 respectively, e.g.
+    "* Formatted: 1,000 BDT (Taka)". For F9/F10 (Conversion Rate), a
+    "* Formatted:" line shows the decoded rate and the derived settlement/
+    billing amount, e.g. "* Formatted: Conversion: 0.00815 | Settlement
+    amount = 8.15 USD (US dollar)".
     """
+    value_map = {label: value for label, _desc, _raw, value in rows}
+
     lines = []
     for label, desc, _raw_hex, value in rows:
         title = desc.split(" - ")[-1]
@@ -652,5 +884,22 @@ def format_field_report(rows) -> str:
         lines.append("")
         lines.append(f"* Value: `{value}`")
         lines.append(f"* Detail: {get_value_detail(label, value)}")
+
+        currency_field = AMOUNT_FIELD_TO_CURRENCY_FIELD.get(label)
+        if currency_field:
+            formatted = format_currency_amount(value, value_map.get(currency_field))
+            if formatted:
+                lines.append(f"* Formatted: {formatted}")
+
+        if label in CONVERSION_FIELD_MAP:
+            formatted = format_conversion_and_settlement(label, value, value_map)
+            if formatted:
+                lines.append(f"* Formatted: {formatted}")
+
+        if label == "F37":
+            formatted = format_f37_cross_check(value, value_map)
+            if formatted:
+                lines.append(f"* Formatted: {formatted}")
+
         lines.append("")
     return "\n".join(lines)

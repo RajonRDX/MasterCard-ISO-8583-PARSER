@@ -138,8 +138,41 @@ DE48_VALUE_TABLES = {
         "1": "Subsequent / Follow-on Transaction in Sequence"
     },
     "23": {
-        "01": "Mobile App / Consumer Device checkout", "02": "Web Browser / Traditional Desktop checkout",
-        "03": "Interactive Voice Response (IVR)", "04": "M2M / Automated IoT Machine Channel"
+        "00": "Card",
+        "01": "Mobile Network Operator (MNO) Controlled Removable Secure Element (SIM/UICC) - Mobile Phone/Smartphone",
+        "02": "Key Fob",
+        "03": "Watch with Contactless Chip or Fixed Secure Element (Not MNO Controlled)",
+        "04": "Mobile Tag",
+        "05": "Wristband",
+        "06": "Mobile Phone Case or Sleeve",
+        "07": "Mobile Phone/Smartphone with Fixed Secure Element (MNO Controlled)",
+        "08": "Removable Secure Element (Not MNO Controlled) - Memory Card for Mobile Phone/Smartphone",
+        "09": "Mobile Phone/Smartphone with Fixed Secure Element (Not MNO Controlled)",
+        "10": "MNO Controlled Removable Secure Element (SIM/UICC) - Tablet/E-book",
+        "11": "Tablet/E-book with Fixed Secure Element (MNO Controlled)",
+        "12": "Removable Secure Element (Not MNO Controlled) - Memory Card for Tablet/E-book",
+        "13": "Tablet/E-book with Fixed Secure Element (Not MNO Controlled)",
+        "14": "Mobile Phone/Smartphone with Payment Application in Host Processor (HCE)",
+        "15": "Tablet/E-book with Payment Application in Host Processor (HCE)",
+        "16": "Mobile Phone/Smartphone with Payment Application in Trusted Execution Environment (TEE)",
+        "17": "Tablet/E-book with Payment Application in Trusted Execution Environment (TEE)",
+        "18": "Watch with Payment Application in Trusted Execution Environment (TEE)",
+        "19": "Watch with Payment Application in Host Processor (HCE)",
+        "20": "Card",
+        "21": "Mobile Phone",
+        "22": "Tablet / E-reader",
+        "23": "Watch / Wristband",
+        "24": "Sticker",
+        "25": "PC / Laptop",
+        "26": "Device Peripheral (Mobile Phone Case or Sleeve)",
+        "27": "Tag (Key Fob or Mobile Tag)",
+        "28": "Jewelry (Ring, Bracelet, Necklace, Cuff Links)",
+        "29": "Fashion Accessory (Handbag, Bag Charm, Glasses)",
+        "30": "Garment (Dress)",
+        "31": "Domestic Appliance (Refrigerator, Washing Machine)",
+        "32": "Vehicle / Vehicle-Attached Device",
+        "33": "Media / Gaming Device (Set-top Box, Media Player, Television)",
+        "34": "Virtual Reality Headset / Smart Glasses"
     },
     "24.SUB1": {
         "ALM": "Account Level Management Base Service", "CHI": "Interchange Optimization Indicator"
@@ -456,7 +489,14 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
             p2 = DE48_VALUE_TABLES["22.POS2"].get(clean_val[1], "Unknown Sequence Index")
             return f"{tag_name} -> Context: {p1} | Chain Order: {p2}{validation_err}"
         return f"{tag_name}: `{clean_val}`{validation_err}"
-
+    if se_tag == "23":
+        if len(clean_val) != 2:
+            validation_err = " [Warning: Expected length exactly 2]"
+        if len(clean_val) >= 2:
+            # Subelement 23 has 2-character codes defining the payment initiation channel
+            meaning = DE48_VALUE_TABLES["23"].get(clean_val[:2], f"Unknown Payment Channel Code '{clean_val[:2]}'")
+            return f"{tag_name} -> {meaning}{validation_err}"
+        return f"{tag_name}: `{clean_val}`{validation_err}"        
     if se_tag == "24":
         if len(clean_val) >= 3:
             sub1 = DE48_VALUE_TABLES["24.SUB1"].get(clean_val[:3], f"Service: {clean_val[:3]}")

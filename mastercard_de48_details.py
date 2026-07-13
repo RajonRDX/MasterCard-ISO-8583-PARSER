@@ -905,45 +905,35 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
             validation_err = " [Warning: Expected at least 2 characters]"
             return f"{tag_name}: `{clean_val}`{validation_err}"
         
-        # Parse subfields
         pos = 0
         result_parts = []
         
-        # Subfield 1: Transaction Type (1 char)
         if len(clean_val) > pos:
             val = clean_val[pos]
             desc = DE48_VALUE_TABLES["22.POS1"].get(val, f"Unknown Framework Type: {val}")
             result_parts.append(f"Type: {desc}")
             pos += 1
         
-        # Subfield 2: Sequence (1 char)
         if len(clean_val) > pos:
             val = clean_val[pos]
             desc = DE48_VALUE_TABLES["22.POS2"].get(val, f"Unknown Sequence: {val}")
             result_parts.append(f"Sequence: {desc}")
             pos += 1
         
-        # Subfield 3: Single Tap (1 char, conditional)
         if len(clean_val) > pos:
             val = clean_val[pos]
             if val == "1":
                 result_parts.append("✓ Merchant supports single tap")
-            elif val == "2":
-                # This might be a format version code
-                pass
             pos += 1
         
-        # Subfield 4: Issuer PIN Request in Single Tap (1 char, conditional)
         if len(clean_val) > pos:
             val = clean_val[pos]
             if val == "1":
                 result_parts.append("Issuer requested PIN in Single Tap mode")
             pos += 1
         
-        # Subfield 5: CIT/MIT (variable, up to 4 chars)
         if len(clean_val) > pos:
             remaining = clean_val[pos:]
-            # Look for known patterns
             if remaining.startswith("M208"):
                 result_parts.append("Resubmission")
             elif remaining in ["01", "02", "03", "04", "05", "06", "07", "08"]:
@@ -982,15 +972,12 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         
         result_parts = []
         
-        # Subfield 1: ALM Service Code
         service_desc = DE48_ALM_SERVICE_CODES.get(service_code, f"UNKNOWN SERVICE: {service_code}")
         result_parts.append(f"Service: {service_code} ({service_desc})")
         
-        # Check for Mastercard One Credential
         if service_code in MC_ONE_SERVICE_PATTERNS:
             result_parts.append("✓ MASTERCARD ONE CREDENTIAL")
         
-        # Parse remaining subfields if available
         if len(clean_val) >= pos + 3:
             product_code = clean_val[pos:pos+3]
             pos += 3
@@ -1012,7 +999,6 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
             if rate_code != "XXX":
                 result_parts.append(f"Rate: {rate_code} ({rate_desc})")
         
-        # Mastercard One Credential subfields (if present)
         if len(clean_val) >= pos + 4:
             brand = clean_val[pos:pos+3]
             pos += 3
@@ -1026,7 +1012,6 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
             if indicator in DE48_ALM_INTERCHANGE_INDICATOR:
                 result_parts.append(f"Interchange: {indicator} ({ind_desc})")
             
-            # Account range (variable length)
             account_range = clean_val[pos:]
             if account_range:
                 result_parts.append(f"Issuer Account Range: {account_range}")
@@ -1050,7 +1035,6 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         return f"{tag_name}: Raw Matrix `{clean_val}`{validation_err}"
 
     if se_tag == "43":
-        # Detect UCAF format type
         if len(clean_val) == 28:
             if clean_val.startswith(('k', 'i')):
                 return f"{tag_name} -> Identity Check AAV: `{clean_val}`"
@@ -1073,27 +1057,21 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         return f"{tag_name}: `{clean_val}`"
     
     if se_tag == "50":
-        # Embedded Interchange Data - contains subfields
         return f"{tag_name} -> Embedded Interchange Data: `{clean_val}`"
 
     if se_tag == "51":
-        # Merchant On-behalf Services
         return f"{tag_name} -> Merchant On-behalf Services: `{clean_val}`"
 
     if se_tag == "55":
-        # Merchant Fraud Scoring Data
         return f"{tag_name} -> Fraud Scoring Data: `{clean_val}`"
 
     if se_tag == "56":
-        # Security Services Additional Data for Issuers
         return f"{tag_name} -> Security Services (Issuer): `{clean_val}`"
 
     if se_tag == "57":
-        # Security Services Additional Data for Acquirers
         return f"{tag_name} -> Security Services (Acquirer): `{clean_val}`"
 
     if se_tag == "60":
-        # Additional Service Data For Issuers
         return f"{tag_name} -> Additional Service Data: `{clean_val}`"
 
     if se_tag == "61":
@@ -1116,47 +1094,39 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         pos = 0
         result_parts = []
         
-        # Subfield 1: Merchant Direct Participation
         if len(clean_val) > pos:
             f1 = DE48_VALUE_TABLES["62.SUB1"].get(clean_val[pos], "Unknown Account Config")
             result_parts.append(f"Settlement Node: {f1}")
             pos += 1
         
-        # Subfield 2: Type of Transaction
         if len(clean_val) > pos:
             f2 = DE48_VALUE_TABLES["62.SUB2"].get(clean_val[pos], "Unknown Speed Class")
             result_parts.append(f"Network: {f2}")
             pos += 1
         
-        # Subfield 3: Real-Time Payment Rules (optional, variable)
         if len(clean_val) > pos:
             remaining = clean_val[pos:]
-            # Try to match known patterns
             if remaining.startswith("PBA"):
                 result_parts.append("Rules: Mastercard Pay by Account")
             else:
-                # Try to parse as subfield 3, 4, 5, 6
                 if len(remaining) >= 3:
                     sub3 = remaining[:3]
                     rules_desc = DE48_VALUE_TABLES["62.SUB3"].get(sub3, f"Unknown Rules: {sub3}")
                     result_parts.append(f"Rules: {rules_desc}")
                     remaining = remaining[3:]
                     
-                    # Subfield 4: Settlement Network ID
                     if len(remaining) >= 2:
                         sub4 = remaining[:2]
                         network_desc = DE48_VALUE_TABLES["62.SUB4"].get(sub4, f"Unknown Network: {sub4}")
                         result_parts.append(f"Network: {network_desc}")
                         remaining = remaining[2:]
                         
-                        # Subfield 5: Funds Transfer Position
                         if len(remaining) >= 2:
                             sub5 = remaining[:2]
                             pos_desc = DE48_VALUE_TABLES["62.SUB5"].get(sub5, f"Unknown Position: {sub5}")
                             result_parts.append(f"Funds Position: {pos_desc}")
                             remaining = remaining[2:]
                             
-                            # Subfield 6: DSS Reference Number
                             if remaining:
                                 result_parts.append(f"DSS Reference: {remaining}")
         
@@ -1196,7 +1166,6 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         return f"{tag_name}: `{clean_val}`"
 
     if se_tag == "67":
-        # Mastercard Send Information - Sanctions Score
         if len(clean_val) >= 3:
             score = clean_val[:3]
             remaining = clean_val[3:]
@@ -1204,7 +1173,6 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         return f"{tag_name}: `{clean_val}`"
 
     if se_tag == "68":
-        # Financial Account Information
         return f"{tag_name} -> Financial Account: `{clean_val}`"
 
     if se_tag == "71":
@@ -1222,7 +1190,6 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
             res_code = block[2]
             svc_desc = DE48_VALUE_TABLES["71.SERVICES"].get(svc_code, f"Unknown On-behalf Service '{svc_code}'")
             
-            # Select target matrix depending on service mapping parameters
             if svc_code == "01":
                 res_desc = DE48_VALUE_TABLES["71.OBS01"].get(res_code, f"Unknown Code '{res_code}'")
             elif svc_code in ("02", "03", "51"):
@@ -1230,11 +1197,9 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
             elif svc_code == "04":
                 res_desc = DE48_VALUE_TABLES["71.OBS04"].get(res_code, f"Unknown Code '{res_code}'")
             elif svc_code in ("05", "06"):
-                # Check for extended SPA2 values
-                if res_code in DE48_OBS_ADDITIONAL["71.OBS05_06_EXTENDED"]:
-                    res_desc = DE48_OBS_ADDITIONAL["71.OBS05_06_EXTENDED"][res_code]
-                else:
-                    res_desc = DE48_VALUE_TABLES["71.OBS05_06"].get(res_code, f"Unknown Code '{res_code}'")
+                # For OBS 05 and 06, the result code is a single character
+                # Valid values: A, B, C, D, E, F, I, K, M, P, S, T, U, V, X, Z
+                res_desc = DE48_VALUE_TABLES["71.OBS05_06"].get(res_code, f"Unknown Code '{res_code}'")
             elif svc_code in ("08", "09"):
                 res_desc = DE48_VALUE_TABLES["71.OBS08_09"].get(res_code, f"Unknown Code '{res_code}'")
             elif svc_code in ("10", "11"):
@@ -1279,7 +1244,6 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         return f"{tag_name} -> Issuer Chip Authentication Data: `{clean_val}`"
 
     if se_tag == "74":
-        # Additional Processing Information
         if len(clean_val) >= 3:
             proc_ind = clean_val[:2]
             proc_info = clean_val[2:]
@@ -1293,7 +1257,6 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         return f"{tag_name}: `{clean_val}`"
 
     if se_tag == "75":
-        # Fraud Scoring Data
         return f"{tag_name} -> Fraud Score Data: `{clean_val}`"
 
     if se_tag == "76":
@@ -1311,26 +1274,20 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
             validation_err = " [Warning: Expected length exactly 6]"
         if len(clean_val) >= 6:
             result_parts = []
-            # Subfield 1: Spend Qualified Indicator
             s1 = DE48_VALUE_TABLES["78.SUB1"].get(clean_val[0], f"Unknown Spend: {clean_val[0]}")
             result_parts.append(f"Spend: {s1}")
-            # Subfield 2: DCC Indicator
             s2 = DE48_VALUE_TABLES["78.SUB2"].get(clean_val[1], f"Unknown DCC: {clean_val[1]}")
             if s2 != "Unknown DCC: ":
                 result_parts.append(f"DCC: {s2}")
-            # Subfield 3: Deferred Billing
             s3 = DE48_VALUE_TABLES["78.SUB3"].get(clean_val[2], f"Unknown: {clean_val[2]}")
             if s3 != "Unknown: ":
                 result_parts.append(f"Deferred: {s3}")
-            # Subfield 4: Visa Checkout
             s4 = DE48_VALUE_TABLES["78.SUB4"].get(clean_val[3], f"Unknown: {clean_val[3]}")
             if s4 != "Unknown: ":
                 result_parts.append(f"Checkout: {s4}")
-            # Subfield 5: Message Reason Code
             s5 = DE48_VALUE_TABLES["78.SUB5"].get(clean_val[4], f"Unknown: {clean_val[4]}")
             if s5 != "Unknown: ":
                 result_parts.append(f"Reason: {s5}")
-            # Subfield 6: Token Response
             s6 = DE48_VALUE_TABLES["78.SUB6"].get(clean_val[5], f"Unknown: {clean_val[5]}")
             if s6 != "Unknown: ":
                 result_parts.append(f"Token: {s6}")
@@ -1338,7 +1295,6 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         return f"{tag_name}: `{clean_val}`{validation_err}"
 
     if se_tag == "79":
-        # Chip CVR/TVR Bit Error Results
         if len(clean_val) >= 5:
             cvr_tvr = clean_val[0]
             byte_id = clean_val[1:3]
@@ -1361,7 +1317,6 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         return f"{tag_name} -> {meaning}{validation_err}"
 
     if se_tag == "90":
-        # Check for different uses: Lodging & Auto Rental vs Custom Payment Service
         if clean_val in DE48_VALUE_TABLES["90"]:
             return f"{tag_name} -> {DE48_VALUE_TABLES['90'][clean_val]}"
         else:
@@ -1379,7 +1334,6 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         return f"{tag_name} -> Fleet Card Data: `{clean_val}`"
 
     if se_tag == "95":
-        # Check if it's a promotion code or Amex CID result
         if clean_val in DE48_VALUE_TABLES["95"]:
             return f"{tag_name} -> {DE48_VALUE_TABLES['95'][clean_val]}"
         else:

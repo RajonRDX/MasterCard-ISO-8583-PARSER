@@ -66,7 +66,7 @@ DE48_SUBELEMENT_GLOSSARY = {
     "61": "POS Data Extended Condition Codes [Fixed, 5 char]",
     "62": "Real-time Settlement Indicator [Fixed, 2 char]",
     "63": "Trace ID / Network Reference Data [Fixed, 15 char]",
-    "66": "Authentication Data / Security Payload Status [Fixed, 1 char]",
+    "66": "Authentication Data (Program Protocol & DS Transaction ID) [Variable]",
     "71": "On-behalf Services Result Flags [Fixed, 6 char]",
     "72": "Issuer Chip Authentication [Variable]",
     "74": "Payment Account Reference (PAR) [Fixed, 29 char]",
@@ -223,9 +223,6 @@ DE48_VALUE_TABLES = {
         "R": "Intraregional real-time payment", "X": "Interregional real-time payment",
         "Z": "Other custom real-time framework", "N": "No participation"
     },
-    "66": {
-        "0": "Authentication token absent or empty", "1": "Cryptographic authentication token parsed successfully"
-    },
     "71.POS1": {
         "0": "PIN verification not modified by network", "1": "PIN block processed via Mastercard On-Behalf rules"
     },
@@ -377,6 +374,14 @@ def decode_de48_subelement(se_tag: str, value: str) -> str:
         if len(clean_val) != 15:
             validation_err = " [Warning: Expected length exactly 15]"
         return f"{tag_name} -> Network Tracking Index Reference ID: `{clean_val}`{validation_err}"
+
+    if se_tag == "66":
+        if len(clean_val) >= 2:
+            protocol = clean_val[:2]
+            ds_trans_id = clean_val[2:]
+            proto_desc = "3-D Secure v1.0" if protocol == "01" else ("EMV 3-DS / 3DS v2.0" if protocol == "02" else "Unknown Protocol")
+            return f"{tag_name} -> Program Protocol: {protocol} ({proto_desc}) | DS Transaction ID: `{ds_trans_id}`"
+        return f"{tag_name}: `{clean_val}`"
 
     if se_tag == "71":
         if len(clean_val) != 6:
